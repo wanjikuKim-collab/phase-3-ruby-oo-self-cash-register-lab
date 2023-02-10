@@ -13,9 +13,8 @@ class CashRegister
     def add_item(title , price, quantity=1)
         @price = price
         @total += price*quantity
-        
+        @last_transaction = price*quantity
         quantity.times { self.items << title}
-        @last_transaction = @price
     end
 
     def apply_discount
@@ -28,10 +27,8 @@ class CashRegister
         end
     end
 
-    def void_last_transaction
-        @items = @items.uniq
-        @items.pop        
-        @items.size == 0? @total = 0 : @total -= @price
+    def void_last_transaction 
+        @items.size == 0? @total = 0 : @total-= @last_transaction
     end
 end
 
@@ -44,6 +41,9 @@ cash_register_with_discount.add_item("macbook air", 1000)
 
 new_register = CashRegister.new
 new_register.add_item("tomato", 1.76, 3)
+new_register.add_item("beans", 2.36, 2)
+new_register.add_item("eggs", 1.99, 2)
+new_register.add_item("tomato", 1.76, 2)
 
 
 
